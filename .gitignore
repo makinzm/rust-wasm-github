@@ -1,3 +1,7 @@
 /target
+/dist
 
-dist
+.yarn
+.pnp.*
+
+tailwind.css

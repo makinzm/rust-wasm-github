@@ -4,7 +4,7 @@ use yew::prelude::*;
 #[function_component(App)]
 fn app() -> Html {
     html! {
-        <div>
+        <div class="bg-white dark:bg-gray-800 dark:text-white">
             <h1>{ "Hello World" }</h1>
             <Counter />
         </div>
