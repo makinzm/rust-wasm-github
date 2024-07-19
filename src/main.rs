@@ -5,7 +5,9 @@ use yew::prelude::*;
 fn app() -> Html {
     html! {
         <div class="bg-white dark:bg-gray-800 dark:text-white">
-            <h1>{ "Hello World" }</h1>
+            <h1 class="text-5xl text-center font-bold p-8">
+                { "Hello World" }
+            </h1>
             <Counter />
         </div>
     }

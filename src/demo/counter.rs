@@ -21,7 +21,7 @@ pub fn counter() -> Html {
     };
 
     html! {
-        <div>
+        <div class="text-center p-4 text-3xl">
             <p>{ "Current count: " }{ *counter }</p>
             <button onclick={increment}>{ "Increment" }</button>
             <button onclick={decrement}>{ "Decrement" }</button>
