@@ -1,6 +1,6 @@
-use yew_router::prelude::*;
-use yew::prelude::*;
 use yew::html::ChildrenProps;
+use yew::prelude::*;
+use yew_router::prelude::*;
 
 use rust_wasm_github::demo::counter::Counter;
 mod words;
@@ -33,7 +33,7 @@ fn switch(routes: Route) -> Html {
                 <Counter />
             </div>
         },
-        Route::Words => html! { 
+        Route::Words => html! {
             <div>
                 <words::Words />
             </div>
@@ -82,4 +82,3 @@ fn app() -> Html {
 fn main() {
     yew::Renderer::<Main>::new().render();
 }
-
