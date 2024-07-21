@@ -1,5 +1,5 @@
-use yew::prelude::*;
 use serde::{Deserialize, Serialize};
+use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Serialize, Deserialize, Default)]
 struct WordEntry {
@@ -139,4 +139,3 @@ fn word_list(WordsProps { words }: &WordsProps) -> Html {
         </div>
     }
 }
-
