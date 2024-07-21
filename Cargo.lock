@@ -604,6 +604,8 @@ name = "rust-wasm-github"
 version = "0.1.0"
 dependencies = [
  "cargo-husky",
+ "serde",
+ "serde_json",
  "yew",
  "yew-router",
 ]

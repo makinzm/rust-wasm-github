@@ -48,7 +48,9 @@ fn layout(props: &ChildrenProps) -> Html {
         <div class="flex flex-col min-h-screen">
             <header class="bg-gray-900 text-white p-4">
                 <div class="container mx-auto flex justify-between items-center">
-                    <h1 class="text-3xl">{"makinzm"}</h1>
+                    <Link<Route> to={Route::Home}>
+                        <h1 class="text-3xl">{"makinzm"}</h1>
+                    </Link<Route>>
                     <nav>
                         <Link<Route> to={Route::Home} classes="hover:text-gray-300">
                             { "Home" }
