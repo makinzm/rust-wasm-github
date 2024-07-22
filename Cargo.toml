@@ -8,6 +8,8 @@ yew = { version = "0.20.0", features = ["csr"] }
 yew-router = "0.17.0"
 serde_json = "1.0"
 serde = "1.0.204"
+# TODO(makinzm) to connect to the database server on docker created by prisma, we need to use the prisma-client-rust
+# prisma-client-rust = { git = "https://github.com/Brendonovich/prisma-client-rust", tag = "0.6.11" }
 
 [dev-dependencies]
 cargo-husky = { version = "1.5.0", features = ["run-cargo-clippy", "run-cargo-fmt", "precommit-hook"]}
