@@ -2,7 +2,6 @@ use yew::html::ChildrenProps;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use rust_wasm_github::demo::counter::Counter;
 mod words;
 
 #[derive(Clone, Routable, PartialEq)]
@@ -30,7 +29,6 @@ fn switch(routes: Route) -> Html {
                         </button>
                     </Link<Route>>
                 </div>
-                <Counter />
             </div>
         },
         Route::Words => html! {
