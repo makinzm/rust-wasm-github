@@ -8,7 +8,10 @@ yew = { version = "0.20.0", features = ["csr"] }
 yew-router = "0.17.0"
 serde_json = "1.0"
 serde = "1.0.204"
-reqwest = "0.12.5"
+reqwest = { version = "0.12.5", features = ["json"] }
+wasm-bindgen-futures = "0.4.42"
+log = "0.4.22"
+web-sys = "0.3.69"
 
 [dev-dependencies]
 cargo-husky = { version = "1.5.0", features = ["run-cargo-clippy", "run-cargo-fmt", "precommit-hook"]}

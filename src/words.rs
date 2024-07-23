@@ -1,4 +1,7 @@
+use reqwest::Client;
 use serde::{Deserialize, Serialize};
+use wasm_bindgen_futures::spawn_local;
+use web_sys::console;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -16,7 +19,7 @@ struct WordsProps {
 
 #[function_component(Words)]
 pub fn words() -> Html {
-    let json_data = r#"
+    let default_json_data = r#"
     [
         {"priority": 2, "word": "Hello", "meaning": "こんにちは", "learning_history": "{}"},
         {"priority": 1, "word": "World", "meaning": "世界", "learning_history": "{}"},
@@ -28,16 +31,68 @@ pub fn words() -> Html {
     ]
     "#;
 
-    let mut words: Vec<WordEntry> = serde_json::from_str(json_data).unwrap();
-    words.sort_by(|a, b| b.priority.cmp(&a.priority));
+    let default_words: Vec<WordEntry> = serde_json::from_str(default_json_data).unwrap();
+    let words = use_state(|| default_words.clone());
+    let error_message = use_state(String::new);
 
-    let words_props = WordsProps { words };
+    {
+        let words = words.clone();
+        let error_message = error_message.clone();
+        use_effect_with_deps(
+            move |_| {
+                spawn_local(async move {
+                    let client = Client::new();
+                    let fetched_words = async {
+                        let response = client
+                            .get("http://localhost:7777/words")
+                            .send()
+                            .await
+                            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+                        let words = response
+                            .json::<Vec<WordEntry>>()
+                            .await
+                            .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+
+                        Ok::<_, String>(words)
+                    }
+                    .await;
+
+                    match fetched_words {
+                        Ok(fetched_words) => {
+                            words.set(fetched_words);
+                            error_message.set(String::new());
+                        }
+                        Err(e) => {
+                            console::log_1(&format!("Error fetching words: {}", e).into());
+                            error_message.set(format!("Failed to fetch words: {}", e));
+                        }
+                    }
+                });
+
+                || ()
+            },
+            (),
+        );
+    }
+
+    let mut sorted_words = (*words).clone();
+    sorted_words.sort_by(|a, b| b.priority.cmp(&a.priority));
+
+    let words_props = WordsProps {
+        words: sorted_words,
+    };
 
     html! {
         <div class="bg-white dark:bg-gray-800 dark:text-white">
             <h1 class="text-5xl text-center font-bold p-8">
                 { "Words" }
             </h1>
+            if !error_message.is_empty() {
+                <div class="text-red-500 text-center mb-4">
+                    { &*error_message }
+                </div>
+            }
             <WordList ..words_props />
         </div>
     }

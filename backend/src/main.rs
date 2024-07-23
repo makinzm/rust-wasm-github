@@ -3,6 +3,7 @@ use mysql::*;
 use mysql::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use actix_cors::Cors;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct WordEntry {
@@ -37,7 +38,13 @@ async fn get_words() -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
-        App::new().service(get_words)
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allow_any_method()
+            .allow_any_header();
+        App::new()
+            .wrap(cors)
+            .service(get_words)
     })
     .bind("0.0.0.0:8080")?
     .run()

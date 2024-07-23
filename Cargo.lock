@@ -1013,9 +1013,12 @@ name = "rust-wasm-github"
 version = "0.1.0"
 dependencies = [
  "cargo-husky",
+ "log",
  "reqwest",
  "serde",
  "serde_json",
+ "wasm-bindgen-futures",
+ "web-sys",
  "yew",
  "yew-router",
 ]
