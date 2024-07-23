@@ -4,6 +4,16 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::console;
 use yew::prelude::*;
 
+#[cfg(target_arch = "wasm32")]
+fn get_env_name() -> &'static str {
+    env!("ENV_NAME")
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn get_env_name() -> String {
+    std::env::var("ENV_NAME").unwrap_or_else(|_| "development".to_string())
+}
+
 #[derive(Clone, PartialEq, Serialize, Deserialize, Default)]
 struct WordEntry {
     priority: i32,
@@ -35,40 +45,48 @@ pub fn words() -> Html {
     let words = use_state(|| default_words.clone());
     let error_message = use_state(String::new);
 
+    let env = get_env_name();
+    let env_ref = env.clone();
     {
         let words = words.clone();
         let error_message = error_message.clone();
         use_effect_with_deps(
-            move |_| {
-                spawn_local(async move {
-                    let client = Client::new();
-                    let fetched_words = async {
-                        let response = client
-                            .get("http://localhost:7777/words")
-                            .send()
-                            .await
-                            .map_err(|e| format!("Failed to send request: {}", e))?;
+            move |()| {
+                if env_ref == "production" {
+                    // GitHub Pages用の処理
+                    words.set(default_words.clone());
+                } else if env_ref == "local" {
+                    // Local用の処理
+                    spawn_local(async move {
+                        let client = Client::new();
+                        let fetched_words = async {
+                            let response = client
+                                .get("http://localhost:7777/words")
+                                .send()
+                                .await
+                                .map_err(|e| format!("Failed to send request: {}", e))?;
 
-                        let words = response
-                            .json::<Vec<WordEntry>>()
-                            .await
-                            .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+                            let words = response
+                                .json::<Vec<WordEntry>>()
+                                .await
+                                .map_err(|e| format!("Failed to parse JSON: {}", e))?;
 
-                        Ok::<_, String>(words)
-                    }
-                    .await;
-
-                    match fetched_words {
-                        Ok(fetched_words) => {
-                            words.set(fetched_words);
-                            error_message.set(String::new());
+                            Ok::<_, String>(words)
                         }
-                        Err(e) => {
-                            console::log_1(&format!("Error fetching words: {}", e).into());
-                            error_message.set(format!("Failed to fetch words: {}", e));
+                        .await;
+
+                        match fetched_words {
+                            Ok(fetched_words) => {
+                                words.set(fetched_words);
+                                error_message.set(String::new());
+                            }
+                            Err(e) => {
+                                console::log_1(&format!("Error fetching words: {}", e).into());
+                                error_message.set(format!("Failed to fetch words: {}", e));
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
                 || ()
             },
@@ -86,7 +104,7 @@ pub fn words() -> Html {
     html! {
         <div class="bg-white dark:bg-gray-800 dark:text-white">
             <h1 class="text-5xl text-center font-bold p-8">
-                { "Words" }
+                { env }
             </h1>
             if !error_message.is_empty() {
                 <div class="text-red-500 text-center mb-4">

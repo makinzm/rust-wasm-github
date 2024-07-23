@@ -39,6 +39,8 @@ jobs:
 
       - name: Build the Rust WASM app
         run: trunk build --release
+        env:
+          ENV_NAME: production
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
