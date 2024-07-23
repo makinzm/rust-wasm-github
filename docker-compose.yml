@@ -1,0 +1,42 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: words_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordsdb
+      MYSQL_USER: worduser
+      MYSQL_PASSWORD: wordpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "2722:3306"
+    networks:
+      - words_network
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: "practice-rust"
+    volumes:
+      - ./backend:/usr/src/myapp
+    ports:
+      - "7777:8080"
+    environment:
+      - RUST_BACKTRACE=1
+      - DATABASE_URL=mysql://worduser:wordpassword@mysql:3306/wordsdb
+    command: cargo run
+    depends_on:
+      - mysql
+    networks:
+      - words_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  words_network:
+    driver: bridge
+

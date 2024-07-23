@@ -3,7 +3,6 @@
 ## Initial Settings
 
 ```bash
-docker compose up -d
 yarn prisma migrate reset
 yarn prisma migrate dev
 
