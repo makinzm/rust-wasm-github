@@ -1,4 +1,5 @@
-FROM rust:1-slim-buster
+# ビルドステージ
+FROM rust:1-slim-buster as builder
 
 WORKDIR /usr/src/myapp
 
@@ -10,17 +11,25 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Cargo.toml と src ディレクトリを作成
-RUN cargo init
+# ソースコードをマウントしてビルド
+RUN --mount=type=bind,source=.,target=/usr/src/myapp \
+    --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/usr/src/myapp/target \
+    cargo build --release && \
+    cp target/release/backend /usr/local/bin/myapp
 
-# 依存関係をキャッシュするためのダミービルド
-COPY Cargo.toml ./
-RUN cargo build --release
-RUN rm src/*.rs
+# ビルド成果物の確認（デバッグ用）
+RUN ls -l /usr/local/bin/myapp
 
-# プロジェクトのソースコードをコピー
-COPY . .
+# 実行ステージ
+FROM debian:buster-slim
 
-# 開発用コマンド
-CMD ["cargo", "run"]
+# 必要なランタイム依存関係をインストール（必要に応じて）
+RUN apt-get update && apt-get install -y \
+    libssl1.1 \
+    && rm -rf /var/lib/apt/lists/*
 
+# ビルドステージから実行可能ファイルをコピー
+COPY --from=builder /usr/local/bin/myapp /bin/myapp
+
+CMD ["/bin/myapp"]

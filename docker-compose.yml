@@ -27,7 +27,7 @@ services:
     environment:
       - RUST_BACKTRACE=1
       - DATABASE_URL=mysql://worduser:wordpassword@mysql:3306/wordsdb
-    command: cargo run
+    command: /bin/myapp
     depends_on:
       - mysql
     networks:
