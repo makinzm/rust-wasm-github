@@ -89,7 +89,7 @@ fn poisson_distribution() -> Html {
             <p> {"This is used to model the small probability of rare events."} </p>
             <p> {"P.D.F: P(X=k) = (λ^k * e^(-λ)) / k!"} </p>
             <input type="range" min="0.1" max="20" step="0.1" value={(*lambda).to_string()}
-                oninput={oninput} style="width: 400px;" />
+                oninput={oninput} style="width: 100%;" />
             <p>{ format!("λ: {}", *lambda) }</p>
             <canvas id="plot" width="800" height="600" ref={canvas_ref}></canvas>
         </div>
