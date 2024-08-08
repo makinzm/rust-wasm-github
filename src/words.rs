@@ -4,14 +4,8 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::console;
 use yew::prelude::*;
 
-#[cfg(target_arch = "wasm32")]
 fn get_env_name() -> &'static str {
     env!("ENV_NAME")
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-fn get_env_name() -> String {
-    std::env::var("ENV_NAME").unwrap_or_else(|_| "development".to_string())
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -46,16 +40,15 @@ pub fn words() -> Html {
     let error_message = use_state(String::new);
 
     let env = get_env_name();
-    let env_ref = env.clone();
     {
         let words = words.clone();
         let error_message = error_message.clone();
         use_effect_with_deps(
             move |()| {
-                if env_ref == "production" {
+                if env == "production" {
                     // GitHub Pages用の処理
                     words.set(default_words.clone());
-                } else if env_ref == "local" {
+                } else if env == "local" {
                     // Local用の処理
                     spawn_local(async move {
                         let client = Client::new();
