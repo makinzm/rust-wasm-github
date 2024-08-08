@@ -2,6 +2,7 @@ use yew::html::ChildrenProps;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+mod distribution;
 mod words;
 
 #[derive(Clone, Routable, PartialEq)]
@@ -10,6 +11,8 @@ enum Route {
     Home,
     #[at("/rust-wasm-github/words")]
     Words,
+    #[at("/rust-wasm-github/distribution")]
+    Distribution,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -22,10 +25,15 @@ fn switch(routes: Route) -> Html {
             <h1 class="text-5xl text-center font-bold p-8">
                 { "Hello World" }
             </h1>
-                <div class="text-center mt-4">
+                <div class="text-center mt-4 grid-buttons">
                     <Link<Route> to={Route::Words}>
                         <button>
-                            { "Go to Words" }
+                            { "📚 Words to improve your vocabulary" }
+                        </button>
+                    </Link<Route>>
+                    <Link<Route> to={Route::Distribution}>
+                        <button>
+                            { "📊 Distribution to associate your statistics with images" }
                         </button>
                     </Link<Route>>
                 </div>
@@ -34,6 +42,11 @@ fn switch(routes: Route) -> Html {
         Route::Words => html! {
             <div>
                 <words::Words />
+            </div>
+        },
+        Route::Distribution => html! {
+            <div>
+                <distribution::Distribution />
             </div>
         },
         Route::NotFound => html! { <h1>{ "NotFound" }</h1> },
