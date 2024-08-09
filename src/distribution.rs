@@ -1,3 +1,4 @@
+use rust_wasm_github::distributions::continuous::bivariate_normal::BivariateNormalDistribution;
 use rust_wasm_github::distributions::discrete::poisson::PoissonDistribution;
 use yew::prelude::*;
 
@@ -10,6 +11,10 @@ pub fn distribution() -> Html {
                 <h2>{"🤯 Discrete Distributions" }</h2>
                 <ul>
                     <li> <PoissonDistribution /> </li>
+                </ul>
+                <h2>{"😂 Continuous Distributions" }</h2>
+                <ul>
+                    <li> <BivariateNormalDistribution /> </li>
                 </ul>
             </div>
         </>
