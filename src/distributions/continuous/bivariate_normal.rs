@@ -67,6 +67,10 @@ pub fn bivariate_normal_distribution() -> Html {
                         .configure_axes()
                         .light_grid_style(WHITE.mix(0.8))
                         .max_light_lines(3)
+                        .x_formatter(&|x| format!("x={:.1}", x))
+                        .z_formatter(&|z| format!("y={:.1}", z))
+                        .x_labels(3)
+                        .z_labels(3)
                         .draw()
                         .unwrap();
 
@@ -94,11 +98,14 @@ pub fn bivariate_normal_distribution() -> Html {
                     };
 
                     chart
-                        .draw_series(SurfaceSeries::xoz(
-                            (-300..=300).map(|i| -3.0 + 6.0 * i as f64 / 300.0),
-                            (-300..=300).map(|i| -3.0 + 6.0 * i as f64 / 300.0),
-                            pdf,
-                        ))
+                        .draw_series(
+                            SurfaceSeries::xoz(
+                                (-300..=300).map(|i| -3.0 + 6.0 * i as f64 / 300.0),
+                                (-300..=300).map(|i| -3.0 + 6.0 * i as f64 / 300.0),
+                                pdf,
+                            )
+                            .style_func(&|&v| (VulcanoHSL::get_color(v / 0.1).into())),
+                        )
                         .unwrap();
                 }
 
