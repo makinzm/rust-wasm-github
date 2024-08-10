@@ -107,6 +107,14 @@ pub fn bivariate_normal_distribution() -> Html {
                             .style_func(&|&v| (VulcanoHSL::get_color(v / 0.1).into())),
                         )
                         .unwrap();
+
+                    let y_lines_data = (-300..=300).map(|i| -3.0 + 6.0 * i as f64 / 300.0);
+                    chart
+                        .draw_series(y_lines_data.clone().map(|y| {
+                            let x = conditional_x;
+                            PathElement::new(vec![(x, pdf(x, y), y), (x, 0.5, y)], BLACK.mix(0.2))
+                        }))
+                        .unwrap();
                 }
 
                 if let Some(canvas) = canvas_ref_conditional.cast::<HtmlCanvasElement>() {
