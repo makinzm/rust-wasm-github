@@ -4,8 +4,8 @@ use web_sys::HtmlCanvasElement;
 use yew::prelude::*;
 
 // TODO
-// - Show mean and variance of conditional Distribution
 // - Make 3D Graph more understandable
+// - Improve Client Side Performance
 
 #[function_component(BivariateNormalDistribution)]
 pub fn bivariate_normal_distribution() -> Html {
@@ -17,6 +17,8 @@ pub fn bivariate_normal_distribution() -> Html {
     let conditional_x = use_state(|| 0.0);
     let canvas_ref_contour = use_node_ref();
     let canvas_ref_conditional = use_node_ref();
+    let conditional_mean_y = use_state(|| 0.0);
+    let conditional_variance_y = use_state(|| 0.0);
 
     {
         let mean_x = *mean_x;
@@ -27,6 +29,8 @@ pub fn bivariate_normal_distribution() -> Html {
         let conditional_x: f64 = *conditional_x;
         let canvas_ref_contour = canvas_ref_contour.clone();
         let canvas_ref_conditional = canvas_ref_conditional.clone();
+        let conditional_mean_y = conditional_mean_y.clone();
+        let conditional_variance_y = conditional_variance_y.clone();
 
         use_effect_with_deps(
             move |_| {
@@ -109,9 +113,12 @@ pub fn bivariate_normal_distribution() -> Html {
 
                     chart.configure_mesh().draw().unwrap();
 
-                    let conditional_mean_y = mean_y
+                    let new_conditional_mean_y = mean_y
                         + correlation * (variance_y / variance_x).sqrt() * (conditional_x - mean_x);
-                    let conditional_variance_y = variance_y * (1.0 - correlation.powi(2));
+                    conditional_mean_y.set(new_conditional_mean_y);
+
+                    let new_conditional_variance_y = variance_y * (1.0 - correlation.powi(2));
+                    conditional_variance_y.set(new_conditional_variance_y);
 
                     let normal_pdf = |x: f64, mean: f64, variance: f64| -> f64 {
                         let sigma = variance.sqrt();
@@ -122,8 +129,8 @@ pub fn bivariate_normal_distribution() -> Html {
                     chart
                         .draw_series((0..=100).map(|i| {
                             let y = -3.0 + 6.0 * i as f64 / 100.0;
-                            let mean = conditional_mean_y;
-                            let variance = conditional_variance_y;
+                            let mean = new_conditional_mean_y;
+                            let variance = new_conditional_variance_y;
                             let pdf = normal_pdf(y, mean, variance);
                             Circle::new((y, pdf), 1, RED)
                         }))
@@ -245,7 +252,7 @@ pub fn bivariate_normal_distribution() -> Html {
                     <span>{ format!("{:.2}", *correlation) }</span>
                 </div>
                 <div>
-                    <label>{ "Conditional on X = " }</label>
+                    <label>{ "Conditional X: " }</label>
                     <input type="range" min="-3" max="3" step="0.1" value={(*conditional_x).to_string()}
                         oninput={oninput_conditional_x} style="width: 70%; " />
                     <span>{ format!("{:.1}", *conditional_x) }</span>
@@ -255,6 +262,14 @@ pub fn bivariate_normal_distribution() -> Html {
                 <canvas id="contour-plot" ref={canvas_ref_contour} style="width: 100%; height: auto;"></canvas>
             </div>
             <div style="flex: 1 1 50%; padding: 10px;">
+                <p>
+                    { "Conditional Mean of Y: " }
+                    { format!("{:.2}", *conditional_mean_y) }
+                </p>
+                <p>
+                    { "Conditional Variance of Y: " }
+                    { format!("{:.2}", *conditional_variance_y) }
+                </p>
                 <canvas id="conditional-plot" ref={canvas_ref_conditional} style="width: 100%; height: auto;"></canvas>
             </div>
         </div>
