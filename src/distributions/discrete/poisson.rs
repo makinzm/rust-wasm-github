@@ -79,10 +79,14 @@ pub fn poisson_distribution() -> Html {
         <div style="width: 100%; max-width: 800px; margin: auto;">
             <h2>{ "Poisson Distribution" }</h2>
             <p> {"This is used to model the small probability of rare events."} </p>
-            <p> {"P.D.F: P(X=k) = (λ^k * e^(-λ)) / k!"} </p>
-            <input type="range" min="0.1" max="20" step="0.1" value={(*lambda).to_string()}
-                oninput={oninput} style="width: 100%;" />
-            <p>{ format!("λ: {}", *lambda) }</p>
+            <p> {"Probability Function: P(X=k) = (λ^k * e^(-λ)) / k!"} </p>
+              <div>
+                <label>{ "λ: " }</label>
+                <input type="range" min="0.01" max="20" step="0.01" value={(*lambda).to_string()}
+                oninput={oninput} style="width: 70%; " />
+                <span>{ format!("{:.2}", *lambda) }</span>
+            </div>
+            <p> {"Mean and Variance: λ"} </p>
             <canvas id="plot" ref={canvas_ref} style="width: 100%; height: auto;"></canvas>
         </div>
     }
