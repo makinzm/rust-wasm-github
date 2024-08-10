@@ -13,11 +13,11 @@ const MOBILE_FONT_SIZE: i32 = 10;
 
 #[function_component(BivariateNormalDistribution)]
 pub fn bivariate_normal_distribution() -> Html {
-    let mean_x = use_state(|| 0.0);
-    let mean_y = use_state(|| 0.0);
+    let mean_x = use_state(|| 1.0);
+    let mean_y = use_state(|| -1.0);
     let variance_x = use_state(|| 1.0);
     let variance_y = use_state(|| 1.0);
-    let correlation = use_state(|| 0.0);
+    let correlation = use_state(|| 0.2);
     let conditional_x = use_state(|| 0.0);
     let canvas_ref_contour = use_node_ref();
     let canvas_ref_conditional = use_node_ref();
@@ -269,13 +269,13 @@ pub fn bivariate_normal_distribution() -> Html {
                 </div>
                 <div>
                     <label>{ "Correlation: " }</label>
-                    <input type="range" min="-1" max="1" step="0.01" value={(*correlation).to_string()}
+                    <input type="range" min="-0.99" max="0.99" step="0.01" value={(*correlation).to_string()}
                         oninput={oninput_correlation} style="width: 70%; " />
                     <span>{ format!("{:.2}", *correlation) }</span>
                 </div>
                 <div>
                     <label>{ "Conditional X: " }</label>
-                    <input type="range" min="-3" max="3" step="0.1" value={(*conditional_x).to_string()}
+                    <input type="range" min="-3" max="3" step="0.01" value={(*conditional_x).to_string()}
                         oninput={oninput_conditional_x} style="width: 70%; " />
                     <span>{ format!("{:.1}", *conditional_x) }</span>
                 </div>
