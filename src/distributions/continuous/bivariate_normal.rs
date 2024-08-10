@@ -260,27 +260,27 @@ pub fn bivariate_normal_distribution() -> Html {
                 <p> {"pdf: f(x) = (1 / {(2π)^(1/2))^d * |Σ|^(1/2)} * exp(-1/2 * (x - μ)^T * Σ^-1 * (x - μ))"} </p>
                 <div>
                     <label>{ "Mean of X: " }</label>
-                    <input type="range" min="-3" max="3" step="0.1" value={(*mean_x).to_string()}
+                    <input type="range" min="-3" max="3" step="0.01" value={(*mean_x).to_string()}
                         oninput={oninput_mean_x} style="width: 70%; " />
-                    <span>{ format!("{:.1}", *mean_x) }</span>
+                    <span>{ format!("{:.2}", *mean_x) }</span>
                 </div>
                 <div>
                     <label>{ "Mean of Y: " }</label>
-                    <input type="range" min="-3" max="3" step="0.1" value={(*mean_y).to_string()}
+                    <input type="range" min="-3" max="3" step="0.01" value={(*mean_y).to_string()}
                         oninput={oninput_mean_y} style="width: 70%; " />
-                    <span>{ format!("{:.1}", *mean_y) }</span>
+                    <span>{ format!("{:.2}", *mean_y) }</span>
                 </div>
                 <div>
                     <label>{ "Variance of X: " }</label>
-                    <input type="range" min="0.1" max="3" step="0.1" value={(*variance_x).to_string()}
+                    <input type="range" min="0.1" max="3" step="0.01" value={(*variance_x).to_string()}
                         oninput={oninput_variance_x} style="width: 70%; " />
-                    <span>{ format!("{:.1}", *variance_x) }</span>
+                    <span>{ format!("{:.2}", *variance_x) }</span>
                 </div>
                 <div>
                     <label>{ "Variance of Y: " }</label>
-                    <input type="range" min="0.1" max="3" step="0.1" value={(*variance_y).to_string()}
+                    <input type="range" min="0.1" max="3" step="0.01" value={(*variance_y).to_string()}
                         oninput={oninput_variance_y} style="width: 70%; " />
-                    <span>{ format!("{:.1}", *variance_y) }</span>
+                    <span>{ format!("{:.2}", *variance_y) }</span>
                 </div>
                 <div>
                     <label>{ "Correlation: " }</label>
@@ -292,7 +292,7 @@ pub fn bivariate_normal_distribution() -> Html {
                     <label>{ "Conditional X: " }</label>
                     <input type="range" min="-3" max="3" step="0.01" value={(*conditional_x).to_string()}
                         oninput={oninput_conditional_x} style="width: 70%; " />
-                    <span>{ format!("{:.1}", *conditional_x) }</span>
+                    <span>{ format!("{:.2}", *conditional_x) }</span>
                 </div>
                 <div>
                     <p>
