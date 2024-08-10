@@ -1,5 +1,6 @@
 use rust_wasm_github::distributions::continuous::bivariate_normal::BivariateNormalDistribution;
 use rust_wasm_github::distributions::discrete::geometric::GeometricDistribution;
+use rust_wasm_github::distributions::discrete::hypergeometric::HypergeometricDistribution;
 use rust_wasm_github::distributions::discrete::negative_binomial::NegativeBinomialDistribution;
 use rust_wasm_github::distributions::discrete::poisson::PoissonDistribution;
 
@@ -16,6 +17,7 @@ pub fn distribution() -> Html {
                     <li> <PoissonDistribution /> </li>
                     <li> <GeometricDistribution /> </li>
                     <li> <NegativeBinomialDistribution /> </li>
+                    <li> <HypergeometricDistribution /> </li>
                 </ul>
                 <h2>{"😂 Continuous Distributions" }</h2>
                 <ul>
