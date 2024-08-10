@@ -67,8 +67,20 @@ pub fn bivariate_normal_distribution() -> Html {
                         .configure_axes()
                         .light_grid_style(WHITE.mix(0.8))
                         .max_light_lines(3)
-                        .x_formatter(&|x| format!("x={:.1}", x))
-                        .z_formatter(&|z| format!("y={:.1}", z))
+                        .x_formatter(&|x| {
+                            if *x < 0.0 {
+                                format!("x=一{:.1}", -x) // Emphasize negative x values
+                            } else {
+                                format!("x={:.1}", x)
+                            }
+                        })
+                        .z_formatter(&|z| {
+                            if *z < 0.0 {
+                                format!("y=一{:.1}", -z) // Emphasize negative z values
+                            } else {
+                                format!("y={:.1}", z)
+                            }
+                        })
                         .x_labels(3)
                         .z_labels(3)
                         .draw()
