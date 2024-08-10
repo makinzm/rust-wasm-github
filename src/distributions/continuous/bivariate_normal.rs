@@ -7,6 +7,10 @@ use yew::prelude::*;
 // - Make 3D Graph more understandable
 // - Improve Client Side Performance
 
+const FONT_SIZE_THRESHOLD: i32 = 300;
+const DESKTOP_FONT_SIZE: i32 = 20;
+const MOBILE_FONT_SIZE: i32 = 10;
+
 #[function_component(BivariateNormalDistribution)]
 pub fn bivariate_normal_distribution() -> Html {
     let mean_x = use_state(|| 0.0);
@@ -45,9 +49,15 @@ pub fn bivariate_normal_distribution() -> Html {
                     let root = backend.into_drawing_area();
                     root.fill(&WHITE).unwrap();
 
+                    let fontsize = if width > FONT_SIZE_THRESHOLD {
+                        DESKTOP_FONT_SIZE
+                    } else {
+                        MOBILE_FONT_SIZE
+                    };
+
                     let mut chart = ChartBuilder::on(&root)
                         .margin(10)
-                        .caption("Bivariate Normal Distribution", ("sans-serif", 20))
+                        .caption("Bivariate Normal Distribution", ("sans-serif", fontsize))
                         .x_label_area_size(30)
                         .y_label_area_size(30)
                         .build_cartesian_3d(-3.0..3.0, 0.0..0.5, -3.0..3.0)
@@ -103,9 +113,20 @@ pub fn bivariate_normal_distribution() -> Html {
                     let root = backend.into_drawing_area();
                     root.fill(&WHITE).unwrap();
 
+                    let fontsize = if width > FONT_SIZE_THRESHOLD {
+                        DESKTOP_FONT_SIZE - 1
+                    } else {
+                        MOBILE_FONT_SIZE - 1
+                    };
+
+                    let caption = format!(
+                        "Y given X = {:.1} (Mean: {:.2}, Variance: {:.2})",
+                        conditional_x, *conditional_mean_y, *conditional_variance_y
+                    );
+
                     let mut chart = ChartBuilder::on(&root)
                         .margin(10)
-                        .caption("Conditional Distribution of Y given X", ("sans-serif", 20))
+                        .caption(caption, ("sans-serif", fontsize))
                         .x_label_area_size(30)
                         .y_label_area_size(30)
                         .build_cartesian_2d(-3.0..3.0, 0.0..1.0)
@@ -221,6 +242,7 @@ pub fn bivariate_normal_distribution() -> Html {
             <div style="flex: 1 1 100%; margin-bottom: 20px;">
                 <h2>{ "Bivariate Normal Distribution" }</h2>
                 <p> {"This distribution models the joint behavior of two normally distributed random variables."} </p>
+                <p> {"pdf: f(x) = (1 / {(2π)^(1/2))^d * |Σ|^(1/2)} * exp(-1/2 * (x - μ)^T * Σ^-1 * (x - μ))"} </p>
                 <div>
                     <label>{ "Mean of X: " }</label>
                     <input type="range" min="-3" max="3" step="0.1" value={(*mean_x).to_string()}
@@ -257,19 +279,20 @@ pub fn bivariate_normal_distribution() -> Html {
                         oninput={oninput_conditional_x} style="width: 70%; " />
                     <span>{ format!("{:.1}", *conditional_x) }</span>
                 </div>
+                <div>
+                    <p>
+                        { "Conditional Mean and Variance of Y given X: " }
+                        { "Mean: " }
+                        { format!("{:.2}", *conditional_mean_y) }
+                        { " Variance: " }
+                        { format!("{:.2}", *conditional_variance_y) }
+                    </p>
+                 </div>
             </div>
             <div style="flex: 1 1 50%; padding: 10px;">
                 <canvas id="contour-plot" ref={canvas_ref_contour} style="width: 100%; height: auto;"></canvas>
             </div>
             <div style="flex: 1 1 50%; padding: 10px;">
-                <p>
-                    { "Conditional Mean of Y: " }
-                    { format!("{:.2}", *conditional_mean_y) }
-                </p>
-                <p>
-                    { "Conditional Variance of Y: " }
-                    { format!("{:.2}", *conditional_variance_y) }
-                </p>
                 <canvas id="conditional-plot" ref={canvas_ref_conditional} style="width: 100%; height: auto;"></canvas>
             </div>
         </div>
