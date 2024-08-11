@@ -92,6 +92,23 @@ fn layout(props: &ChildrenProps) -> Html {
         );
     }
 
+    let links = html! {
+        <>
+            <a href="https://github.com/makinzm" class="hover:text-gray-300">
+                { "GitHub(External)" }
+            </a>
+            <a href="https://x.com/NozomiMaki2" class="hover:text-gray-300">
+                { "X(External)" }
+            </a>
+            <a href="https://bookmeter.com/users/1409315" class="hover:text-gray-300">
+                { "Bookmeter(External)" }
+            </a>
+            <a href="https://atcoder.jp/users/makinzm2" class="hover:text-gray-300">
+                { "AtCoder(External)" }
+            </a>
+        </>
+    };
+
     html! {
         <div class="flex flex-col min-h-screen relative">
             <header class="bg-gray-900 text-white p-4">
@@ -108,34 +125,12 @@ fn layout(props: &ChildrenProps) -> Html {
                         // Mobile menu
                         <nav class={format!("absolute right-0 bg-gray-900 text-white mt-2 transition-all duration-300 z-0 {}", if *menu_open { "block" } else { "hidden" })}>
                             <div class="flex flex-col space-y-2 p-4">
-                                <a href="https://github.com/makinzm" class="hover:text-gray-300">
-                                    { "GitHub(External)" }
-                                </a>
-                                <a href="https://x.com/NozomiMaki2" class="hover:text-gray-300">
-                                    { "X(External)" }
-                                </a>
-                                <a href="https://bookmeter.com/users/1409315" class="hover:text-gray-300">
-                                    { "Bookmeter(External)" }
-                                </a>
-                                <a href="https://atcoder.jp/users/makinzm2" class="hover:text-gray-300">
-                                    { "AtCoder(External)" }
-                                </a>
+                                { links.clone() }
                             </div>
                         </nav>
                     </div>
                     <nav class="hidden md:flex space-x-4">
-                        <a href="https://github.com/makinzm" class="hover:text-gray-300">
-                            { "GitHub(External)" }
-                        </a>
-                        <a href="https://x.com/NozomiMaki2" class="hover:text-gray-300">
-                            { "X(External)" }
-                        </a>
-                        <a href="https://bookmeter.com/users/1409315" class="hover:text-gray-300">
-                            { "Bookmeter(External)" }
-                        </a>
-                        <a href="https://atcoder.jp/users/makinzm2" class="hover:text-gray-300">
-                            { "AtCoder(External)" }
-                        </a>
+                        { links }
                     </nav>
                 </div>
             </header>
