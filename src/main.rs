@@ -118,8 +118,27 @@ fn layout(props: &ChildrenProps) -> Html {
                     </Link<Route>>
                     <div class="relative">
                         <button class="md:hidden z-10" onclick={toggle_menu.clone()}>
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            <svg
+                                class={format!("w-6 h-6 transition-transform duration-300 {}", if *menu_open { "rotate-90" } else { "" })}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16m-7 6h7"
+                                    class={format!("transition-opacity duration-300 {}", if *menu_open { "opacity-0" } else { "opacity-100" })}
+                                ></path>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                    class={format!("transition-opacity duration-300 {}", if *menu_open { "opacity-100" } else { "opacity-0" })}
+                                ></path>
                             </svg>
                         </button>
                         // Mobile menu
