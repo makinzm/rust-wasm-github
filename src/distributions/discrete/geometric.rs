@@ -25,8 +25,7 @@ pub fn geometric_distribution() -> Html {
                     root.fill(&WHITE).unwrap();
 
                     let caption = format!(
-                        "Geometric Distribution (p = {:.2}), Mean: {:.2}, Variance: {:.2}",
-                        p,
+                        "Mean: {:.2}, Variance: {:.2}",
                         1.0 / p,
                         (1.0 - p) / p.powi(2)
                     );

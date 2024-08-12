@@ -309,11 +309,12 @@ pub fn bivariate_normal_distribution() -> Html {
                 <div>
                     <p>
                         { "Conditional Mean and Variance of Y given X: " }
-                        { "Mean: " }
                         { format!("{:.2}", *conditional_mean_y) }
                         { " Variance: " }
                         { format!("{:.2}", *conditional_variance_y) }
                     </p>
+                    <p> {"Mean of Y given X = μ_Y + ρ * (σ_Y / σ_X) * (X - μ_X)"} </p>
+                    <p> {"Variance of Y given X = σ_Y^2 * (1 - ρ^2)"} </p>
                  </div>
             </div>
             <div style="flex: 1 1 50%; padding: 10px;">

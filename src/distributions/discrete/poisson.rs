@@ -25,9 +25,10 @@ pub fn poisson_distribution() -> Html {
                     let root = backend.into_drawing_area();
                     root.fill(&WHITE).unwrap();
 
+                    let caption = format!("Mean and Variance: {:.2}", lambda);
                     let mut chart = ChartBuilder::on(&root)
                         .margin(10)
-                        .caption("Poisson Distribution", ("sans-serif", 20))
+                        .caption(caption, ("sans-serif", 20))
                         .x_label_area_size(30)
                         .y_label_area_size(30)
                         .build_cartesian_2d(0..20, 0.0..1.0)

@@ -26,8 +26,11 @@ pub fn negative_binomial_distribution() -> Html {
                     let root = backend.into_drawing_area();
                     root.fill(&WHITE).unwrap();
 
-                    let caption = format!("Negative Binomial Distribution (p = {:.2}, r = {}), Mean: {:.2}, Variance: {:.2}",
-                        p, r, r as f64 / p, r as f64 * (1.0 - p) / p.powi(2));
+                    let caption = format!(
+                        "Mean: {:.2}, Variance: {:.2}",
+                        r as f64 / p,
+                        r as f64 * (1.0 - p) / p.powi(2)
+                    );
 
                     let mut chart = ChartBuilder::on(&root)
                         .margin(10)

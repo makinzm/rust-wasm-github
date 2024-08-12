@@ -33,8 +33,7 @@ pub fn hypergeometric_distribution() -> Html {
                     root.fill(&WHITE).unwrap();
 
                     let caption = format!(
-                        "Hypergeometric Distribution (N = {}, M = {}, K = {}), Mean: {:.2}, Variance: {:.2}",
-                        n, m, k,
+                        "Mean: {:.2}, Variance: {:.2}",
                         (k * m) as f64 / n as f64,
                         (k * m * (n - m) * (n - k)) as f64 / (n * n * (n - 1)) as f64
                     );
