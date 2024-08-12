@@ -1,5 +1,6 @@
 use rust_wasm_github::distributions::continuous::beta::BetaDistribution;
 use rust_wasm_github::distributions::continuous::bivariate_normal::BivariateNormalDistribution;
+use rust_wasm_github::distributions::continuous::chi_squared::ChiSquaredDistribution;
 use rust_wasm_github::distributions::continuous::exponential::ExponentialDistribution;
 use rust_wasm_github::distributions::continuous::gamma::GammaDistribution;
 use rust_wasm_github::distributions::continuous::log_normal::LogNormalDistribution;
@@ -124,6 +125,9 @@ pub fn distribution() -> Html {
                     </DistributionItem>
                     <DistributionItem name="Beta Distribution" global_visibility={*global_visibility}>
                         <BetaDistribution />
+                    </DistributionItem>
+                    <DistributionItem name="Chi Squared Distribution" global_visibility={*global_visibility}>
+                        <ChiSquaredDistribution />
                     </DistributionItem>
                     <DistributionItem name="Log Normal Distribution" global_visibility={*global_visibility}>
                         <LogNormalDistribution />
