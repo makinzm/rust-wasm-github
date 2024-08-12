@@ -12,22 +12,41 @@ use yew::prelude::*;
 struct DistributionProps {
     name: &'static str,
     children: Children,
+    global_visibility: bool,
 }
 
 #[function_component(DistributionItem)]
 fn distribution_item(props: &DistributionProps) -> Html {
     let visible = use_state(|| false);
+
+    // Update visibility based on global visibility changes
+    {
+        let visible = visible.clone();
+        let global_visibility = props.global_visibility;
+        use_effect_with_deps(
+            move |_| {
+                visible.set(global_visibility);
+                || ()
+            },
+            props.global_visibility,
+        );
+    }
+
     let toggle_visibility = {
         let visible = visible.clone();
-        Callback::from(move |_| visible.set(!*visible))
+        Callback::from(move |_| {
+            visible.set(!*visible);
+        })
     };
+
+    let is_visible = *visible;
 
     html! {
         <li>
             <div onclick={toggle_visibility} style="cursor: pointer;">
-                { if *visible { format!("{} ▼", props.name) } else { format!("{} ►", props.name) } }
+                { if is_visible { format!("{} ▼", props.name) } else { format!("{} ►", props.name) } }
             </div>
-            if *visible {
+            if is_visible {
                 <div style="margin-left: 20px;">
                     { for props.children.iter() }
                 </div>
@@ -38,34 +57,66 @@ fn distribution_item(props: &DistributionProps) -> Html {
 
 #[function_component(Distribution)]
 pub fn distribution() -> Html {
+    let global_visibility = use_state(|| false);
+    let toggle_global_visibility = {
+        let global_visibility = global_visibility.clone();
+        Callback::from(move |_| global_visibility.set(!*global_visibility))
+    };
+
+    let background_color = if *global_visibility {
+        "lightgreen"
+    } else {
+        "lightcoral"
+    };
+    let button_style = format!(
+        "
+        position: fixed;
+        right: 20px;
+        top: 120px;
+        background-color: {};
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100px;
+        height: 50px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        ",
+        background_color
+    );
+
     html! {
         <>
             <h1>{ "Distribution" }</h1>
-            <div>
+            <div style="position: relative;">
+                <button onclick={toggle_global_visibility} style={button_style}>
+                    { if *global_visibility { "Close" } else { "Open" } }
+                </button>
                 <h2>{"🤯 Discrete Distributions" }</h2>
                 <ul>
-                    <DistributionItem name="Poisson Distribution">
+                    <DistributionItem name="Poisson Distribution" global_visibility={*global_visibility}>
                         <PoissonDistribution />
                     </DistributionItem>
-                    <DistributionItem name="Geometric Distribution">
+                    <DistributionItem name="Geometric Distribution" global_visibility={*global_visibility}>
                         <GeometricDistribution />
                     </DistributionItem>
-                    <DistributionItem name="Negative Binomial Distribution">
+                    <DistributionItem name="Negative Binomial Distribution" global_visibility={*global_visibility}>
                         <NegativeBinomialDistribution />
                     </DistributionItem>
-                    <DistributionItem name="Hypergeometric Distribution">
+                    <DistributionItem name="Hypergeometric Distribution" global_visibility={*global_visibility}>
                         <HypergeometricDistribution />
                     </DistributionItem>
                 </ul>
                 <h2>{"😂 Continuous Distributions" }</h2>
                 <ul>
-                    <DistributionItem name="Exponential Distribution">
+                    <DistributionItem name="Exponential Distribution" global_visibility={*global_visibility}>
                         <ExponentialDistribution />
                     </DistributionItem>
-                    <DistributionItem name="Weibull Distribution">
+                    <DistributionItem name="Weibull Distribution" global_visibility={*global_visibility}>
                         <WeibullDistribution />
                     </DistributionItem>
-                    <DistributionItem name="Bivariate Normal Distribution">
+                    <DistributionItem name="Bivariate Normal Distribution" global_visibility={*global_visibility}>
                         <BivariateNormalDistribution />
                     </DistributionItem>
                 </ul>
