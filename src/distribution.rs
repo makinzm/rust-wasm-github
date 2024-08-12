@@ -1,5 +1,6 @@
 use rust_wasm_github::distributions::continuous::bivariate_normal::BivariateNormalDistribution;
 use rust_wasm_github::distributions::continuous::exponential::ExponentialDistribution;
+use rust_wasm_github::distributions::continuous::WeibullDistribution;
 use rust_wasm_github::distributions::discrete::geometric::GeometricDistribution;
 use rust_wasm_github::distributions::discrete::hypergeometric::HypergeometricDistribution;
 use rust_wasm_github::distributions::discrete::negative_binomial::NegativeBinomialDistribution;
@@ -60,6 +61,9 @@ pub fn distribution() -> Html {
                 <ul>
                     <DistributionItem name="Exponential Distribution">
                         <ExponentialDistribution />
+                    </DistributionItem>
+                    <DistributionItem name="Weibull Distribution">
+                        <WeibullDistribution />
                     </DistributionItem>
                     <DistributionItem name="Bivariate Normal Distribution">
                         <BivariateNormalDistribution />
