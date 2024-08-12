@@ -4,6 +4,7 @@ use rust_wasm_github::distributions::continuous::chi_squared::ChiSquaredDistribu
 use rust_wasm_github::distributions::continuous::exponential::ExponentialDistribution;
 use rust_wasm_github::distributions::continuous::gamma::GammaDistribution;
 use rust_wasm_github::distributions::continuous::log_normal::LogNormalDistribution;
+use rust_wasm_github::distributions::continuous::student::TDistribution;
 use rust_wasm_github::distributions::continuous::WeibullDistribution;
 use rust_wasm_github::distributions::discrete::geometric::GeometricDistribution;
 use rust_wasm_github::distributions::discrete::hypergeometric::HypergeometricDistribution;
@@ -128,6 +129,9 @@ pub fn distribution() -> Html {
                     </DistributionItem>
                     <DistributionItem name="Chi Squared Distribution" global_visibility={*global_visibility}>
                         <ChiSquaredDistribution />
+                    </DistributionItem>
+                    <DistributionItem name="Student's T Distribution" global_visibility={*global_visibility}>
+                        <TDistribution />
                     </DistributionItem>
                     <DistributionItem name="Log Normal Distribution" global_visibility={*global_visibility}>
                         <LogNormalDistribution />
