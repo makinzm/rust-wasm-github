@@ -92,6 +92,39 @@ fn layout(props: &ChildrenProps) -> Html {
         );
     }
 
+    {
+        let menu_open = menu_open.clone();
+        use_effect_with_deps(
+            move |_| {
+                let document = web_sys::window().unwrap().document().unwrap();
+
+                let closure = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+                    let target = event.target().unwrap();
+                    let target: web_sys::Element = target.dyn_into().unwrap();
+
+                    // Check if the closest call is successful
+                    if let Ok(closest) = target.closest(".menu-container") {
+                        if closest.is_none() {
+                            menu_open.set(false);
+                        }
+                    } else {
+                        // Handle the error case if needed
+                        menu_open.set(false);
+                    }
+                }) as Box<dyn FnMut(_)>);
+
+                document
+                    .add_event_listener_with_callback("click", closure.as_ref().unchecked_ref())
+                    .unwrap();
+
+                closure.forget();
+
+                || {}
+            },
+            (),
+        );
+    }
+
     let links = html! {
         <>
             <a href="https://github.com/makinzm" class="hover:text-gray-300">
@@ -116,7 +149,7 @@ fn layout(props: &ChildrenProps) -> Html {
                     <Link<Route> to={Route::Home}>
                         <h1 class="text-3xl">{"makinzm"}</h1>
                     </Link<Route>>
-                    <div class="relative">
+                    <div class="relative menu-container">
                         <button class="md:hidden z-10" onclick={toggle_menu.clone()}>
                             <svg
                                 class={format!("w-6 h-6 transition-transform duration-300 {}", if *menu_open { "rotate-90" } else { "" })}
