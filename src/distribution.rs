@@ -2,6 +2,7 @@ use rust_wasm_github::distributions::continuous::beta::BetaDistribution;
 use rust_wasm_github::distributions::continuous::bivariate_normal::BivariateNormalDistribution;
 use rust_wasm_github::distributions::continuous::chi_squared::ChiSquaredDistribution;
 use rust_wasm_github::distributions::continuous::exponential::ExponentialDistribution;
+use rust_wasm_github::distributions::continuous::f::FDistribution;
 use rust_wasm_github::distributions::continuous::gamma::GammaDistribution;
 use rust_wasm_github::distributions::continuous::log_normal::LogNormalDistribution;
 use rust_wasm_github::distributions::continuous::student::TDistribution;
@@ -132,6 +133,9 @@ pub fn distribution() -> Html {
                     </DistributionItem>
                     <DistributionItem name="Student's T Distribution" global_visibility={*global_visibility}>
                         <TDistribution />
+                    </DistributionItem>
+                    <DistributionItem name="F Distribution" global_visibility={*global_visibility}>
+                        <FDistribution />
                     </DistributionItem>
                     <DistributionItem name="Log Normal Distribution" global_visibility={*global_visibility}>
                         <LogNormalDistribution />
