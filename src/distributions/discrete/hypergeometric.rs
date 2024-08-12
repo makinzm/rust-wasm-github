@@ -138,13 +138,13 @@ pub fn hypergeometric_distribution() -> Html {
             <p> {"WARNING: N >= M >= K >= 0"} </p>
             <div>
                 <label>{ "N: " }</label>
-                <input type="range" min="1" max="100" step="1" value={(*n).to_string()}
+                <input type="range" min={std::cmp::max(*m, 1).to_string()} max="100" step="1" value={(*n).to_string()}
                 oninput={oninput_n} style="width: 70%; " />
                 <span>{ format!("{}", *n) }</span>
             </div>
             <div>
                 <label>{ "M: " }</label>
-                <input type="range" min="0" max={(*n).to_string()} step="1" value={(*m).to_string()}
+                <input type="range" min={std::cmp::max(*k, 0).to_string()} max={(*n).to_string()} step="1" value={(*m).to_string()}
                 oninput={oninput_m} style="width: 70%; " />
                 <span>{ format!("{}", *m) }</span>
             </div>
