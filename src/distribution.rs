@@ -7,6 +7,7 @@ use rust_wasm_github::distributions::continuous::gamma::GammaDistribution;
 use rust_wasm_github::distributions::continuous::log_normal::LogNormalDistribution;
 use rust_wasm_github::distributions::continuous::student::TDistribution;
 use rust_wasm_github::distributions::continuous::WeibullDistribution;
+use rust_wasm_github::distributions::discrete::binomial::BinomialDistribution;
 use rust_wasm_github::distributions::discrete::geometric::GeometricDistribution;
 use rust_wasm_github::distributions::discrete::hypergeometric::HypergeometricDistribution;
 use rust_wasm_github::distributions::discrete::negative_binomial::NegativeBinomialDistribution;
@@ -101,6 +102,9 @@ pub fn distribution() -> Html {
                 </button>
                 <h2>{"🤯 Discrete Distributions" }</h2>
                 <ul>
+                    <DistributionItem name="Binomial Distribution" global_visibility={*global_visibility}>
+                        <BinomialDistribution />
+                    </DistributionItem>
                     <DistributionItem name="Poisson Distribution" global_visibility={*global_visibility}>
                         <PoissonDistribution />
                     </DistributionItem>
