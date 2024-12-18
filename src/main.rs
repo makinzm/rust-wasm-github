@@ -139,6 +139,9 @@ fn layout(props: &ChildrenProps) -> Html {
             <a href="https://atcoder.jp/users/makinzm2" class="hover:text-gray-300">
                 { "AtCoder(External)" }
             </a>
+            <a href="https://qiita.com/making111" class="hover:text-gray-300">
+                { "Qiita(External)" }
+            </a>
         </>
     };
 
